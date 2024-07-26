@@ -5,20 +5,20 @@
 ## 项目结构
 
 ```
-│  .gitignore		Git ignore 源文件
-│  LICENSE			GPL-3.0 版权许可
-│  README.md		本文件
+│  .gitignore       Git ignore 源文件
+│  LICENSE          GPL-3.0 版权许可
+│  README.md        本文件
 │
 ├─ src
 |  非代码文件
-│  │  ip.txt		IP 数据库
-│  │  config.ini	配置文件
+│  │  ip.txt        IP 数据库
+│  │  config.ini    配置文件
 |  代码文件
-│  │  config.py		配置文件处理模块
-│  │  database.py	数据库接口
-│  │  gtdb.py		主程序入口
-│  │  scanner.py	扫描模块
-│  │  utils.py		网络接口
+│  │  config.py     配置文件处理模块
+│  │  database.py   数据库接口
+│  │  gtdb.py       主程序入口
+│  │  scanner.py    扫描模块
+│  │  utils.py      网络接口
 
 ** 把 ip.txt 和 config.ini 放在 src 目录下是为了方便运行。
 ```
@@ -61,6 +61,14 @@ pip3 install tqdm
   - `dbfile`: 数据库文件名。默认值：`ip.txt`
   - `saveMode`: 保存模式，可选 `append` / `overwrite`。分别表示在原有基础上添加数据或完全覆盖原有数据库。注意数据保存时会自动按字典序排序。
 
-## 版权许可
+## CONTRIBUTING
 
-本项目使用 [GPL-3.0](./LICENSE) 版权许可。
+我们希望能为不同网络环境的用户提供统一 IP 库。由于作者本人资源有限，无法做到在所有地区、网络、运营商分别进行 IP 扫描。
+
+欢迎贡献可用的 IP。请先 clone 原有的 IP 库，**不要修改除 `numThreads` 和 `[logging]` 以外的其他配置项**，直接运行 `gtdb.py` 来完成 IP 库的更新。
+
+更新之后提交 Pull Request，分支命名为 `update-yyyyMMdd`（即 `update` 加上更新的时间，如 `update-20240726`）。**您的 PR 不应包含对 `ip.txt` 以外文件的修改。**建议在评论区备注自己所在地区以及运营商方便验证。感谢您对此项目的支持！
+
+> [!TIP]
+>
+> 如果你是在对代码/其他文件做改进，直接无视上面的内容。随便 PR。欢迎！
