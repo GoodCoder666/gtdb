@@ -5,20 +5,20 @@
 ## 项目结构
 
 ```
-│  .gitignore		Git ignore 源文件
-│  LICENSE			GPL-3.0 版权许可
-│  README.md		本文件
+│  .gitignore       Git ignore 源文件
+│  LICENSE          GPL-3.0 版权许可
+│  README.md        本文件
 │
 ├─ src
 |  非代码文件
-│  │  ip.txt		IP 数据库
-│  │  config.ini	配置文件
+│  │  ip.txt        IP 数据库
+│  │  config.ini    配置文件
 |  代码文件
-│  │  config.py		配置文件处理模块
-│  │  database.py	数据库接口
-│  │  gtdb.py		主程序入口
-│  │  scanner.py	扫描模块
-│  │  utils.py		网络接口
+│  │  config.py     配置文件处理模块
+│  │  database.py   数据库接口
+│  │  gtdb.py       主程序入口
+│  │  scanner.py    扫描模块
+│  │  utils.py      网络接口
 
 ** 把 ip.txt 和 config.ini 放在 src 目录下是为了方便运行。
 ```
@@ -61,6 +61,3 @@ pip3 install tqdm
   - `dbfile`: 数据库文件名。默认值：`ip.txt`
   - `saveMode`: 保存模式，可选 `append` / `overwrite`。分别表示在原有基础上添加数据或完全覆盖原有数据库。注意数据保存时会自动按字典序排序。
 
-## 版权许可
-
-本项目使用 [GPL-3.0](./LICENSE) 版权许可。
