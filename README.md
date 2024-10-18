@@ -1,6 +1,8 @@
 # gtdb
 
-[GoogleTranslate_IPFinder](https://github.com/GoodCoder666/GoogleTranslate_IPFinder) 的默认 IP 库及更新脚本。
+[GoogleTranslate_IPFinder](https://github.com/GoodCoder666/GoogleTranslate_IPFinder) 的官方 IP 库及更新脚本。
+
+> 2024/10/18：更新超级 IP 库，从 [GotoX IP](https://github.com/SeaHOH/GotoX/blob/master/data/ip.txt) 分离出了 IPv4 和 IPv6。当默认 IP 库全部无效时，建议尝试此 IP 库（IPv4 优先）。
 
 ## 项目结构
 
@@ -9,6 +11,9 @@
 │  LICENSE          GPL-3.0 版权许可
 │  README.md        本文件
 │
+├─ full             超级 IP 库
+│  │  v4.txt        IPv4 库
+│  │  v6.txt        IPv6 库
 ├─ src
 |  非代码文件
 │  │  ip.txt        IP 数据库
