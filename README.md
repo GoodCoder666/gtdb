@@ -9,6 +9,9 @@
 │  LICENSE          GPL-3.0 版权许可
 │  README.md        本文件
 │
+├─ full             超级 IP 库
+│  │  v4.txt        IPv4 库
+│  │  v6.txt        IPv6 库
 ├─ src
 |  非代码文件
 │  │  ip.txt        IP 数据库
