@@ -38,7 +38,7 @@ class GtdbConfig:
         database = config['database']
         bad = _check_bad(logging.keys(), {'silent', 'updateinterval', 'progressbar'}, 'logging')
         bad += _check_bad(scan.keys(), {
-            'numthreads', 'timeout', 'randomize', 'resultlimit',
+            'maxconnections', 'timeout', 'randomize', 'resultlimit',
             'stabilitythreshold', 'host', 'format', 'ipranges'}, 'scan')
         bad += _check_bad(database.keys(), {'dbfile', 'savemode'}, 'database')
         if bad:
@@ -51,9 +51,9 @@ class GtdbConfig:
         if self.update_interval <= 0:
             raise ValueError('updateInterval must be positive')
         self.progress_bar = logging.getboolean('progressbar', True)
-        self.num_threads = scan.getint('numthreads', 64)
-        if self.num_threads < 1 or self.num_threads > 256:
-            raise ValueError('numThreads must be an integer between 1 and 256')
+        self.max_connections = scan.getint('maxconnections', 64)
+        if self.max_connections < 1 or self.max_connections > 1024:
+            raise ValueError('maxConnections must be an integer between 1 and 1024')
         self.timeout = scan.getfloat('timeout', 1.5)
         if self.timeout <= 0:
             raise ValueError('timeout must be positive')
