@@ -3,42 +3,42 @@
 [GoogleTranslate_IPFinder](https://github.com/GoodCoder666/GoogleTranslate_IPFinder) 的官方 IP 库及更新脚本。
 
 > 2024/10/18：更新超级 IP 库，从 [GotoX IP](https://github.com/SeaHOH/GotoX/blob/master/data/ip.txt) 分离出了 IPv4 和 IPv6。当默认 IP 库全部无效时，建议尝试此 IP 库（IPv4 优先）。
+> 2026/02/01：同步改用主项目的 `aiohttp` 内核；测试地址更改为 `/translate_a/element.js`，以避免 API 请求速率限制。
 
 ## 项目结构
 
 ```
-│  .gitignore       Git ignore 源文件
-│  LICENSE          GPL-3.0 版权许可
-│  README.md        本文件
+│  .gitignore        Git ignore 源文件
+│  LICENSE           GPL-3.0 版权许可
+│  README.md         本文件
+│  requirements.txt  依赖项列表 (pypi)
 │
-├─ full             超级 IP 库
-│  │  v4.txt        IPv4 库
-│  │  v6.txt        IPv6 库
+├─ full              超级 IP 库
+│  │  v4.txt         IPv4 库
+│  │  v6.txt         IPv6 库
 ├─ src
-|  非代码文件
-│  │  ip.txt        IP 数据库
-│  │  config.ini    配置文件
-|  代码文件
-│  │  config.py     配置文件处理模块
-│  │  database.py   数据库接口
-│  │  gtdb.py       主程序入口
-│  │  scanner.py    扫描模块
-│  │  utils.py      网络接口
+│  非代码文件
+│  │  ip.txt         IP 数据库
+│  │  config.ini     配置文件
+│  代码文件
+│  │  config.py      配置文件处理模块
+│  │  database.py    数据库接口
+│  │  gtdb.py        主程序入口
+│  │  scanner.py     扫描模块
+│  │  utils.py       网络接口
 
 ** 把 ip.txt 和 config.ini 放在 src 目录下是为了方便运行。
 ```
 
 ## 运行脚本
 
-在安装了 Python >= 3.6 的任意系统中执行 `gtdb.py` 即可。
-
-若配置了 `progressBar = true`（使用进度条）则需要 `tqdm` 模块：
+在安装了 Python >= 3.6 的任意系统中执行 `gtdb.py` 即可。请务必先安装依赖：
 
 ```
-pip3 install tqdm
+pip install -r requirements.txt
 ```
 
-否则无第三方依赖项。
+推荐使用 Python >= 3.12 以获得最佳性能。
 
 ## 配置文件
 
@@ -52,7 +52,7 @@ pip3 install tqdm
 
 - section `[scan]`
 
-  - `numThreads`: 扫描使用的线程数。**请根据硬件配置情况调整**，过大可能导致程序无法正常执行。默认值：`64`
+  - `maxConnections`: 扫描的最大并发数，或同一时间的最大连接数。默认值：`64`
   - `timeout`: 请求时间限制，单位为秒（s）。若目标 IP 超出此时间为响应，则自动判定为不可用。默认值：`1.5`
   - `randomize`: 是否随机化扫描。默认值：`true`
   - `resultLimit`: 结果数量限制。当扫出的 IP 数量达到限制时，停止扫描并保存结果。设置为 `0` 则表示无限制。默认值：`0`
@@ -70,7 +70,7 @@ pip3 install tqdm
 
 我们希望能为不同网络环境的用户提供统一 IP 库。由于作者本人资源有限，无法做到在所有地区、网络、运营商分别进行 IP 扫描。
 
-欢迎贡献可用的 IP。请先 clone 原有的 IP 库，**不要修改除 `numThreads` 和 `[logging]` 以外的其他配置项**，直接运行 `gtdb.py` 来完成 IP 库的更新。
+欢迎贡献可用的 IP。请先 clone 原有的 IP 库，**不要修改除 `maxConnections` 和 `[logging]` 以外的其他配置项**，直接运行 `gtdb.py` 来完成 IP 库的更新。
 
 更新之后提交 Pull Request，分支命名为 `update-yyyyMMdd`（即 `update` 加上更新的时间，如 `update-20240726`）。**您的 PR 不应包含对 `ip.txt` 以外文件的修改。**建议在评论区备注自己所在地区以及运营商方便验证。感谢您对此项目的支持！
 

@@ -1,29 +1,60 @@
 # -*- coding: utf-8 -*-
-import ssl
-import sys
-from urllib.request import Request, urlopen
+import random
 
-def _build_request(ip, host, testip_format):
-    url = testip_format.format(f'[{ip}]' if ':' in ip else ip)
-    request = Request(url)
-    request.add_header('Host', host)
-    return request
+import aiohttp
 
-def new_context(host):
-    ctx = ssl._create_unverified_context() if sys.platform.startswith('darwin') else ssl.create_default_context()
-    old_wrap_socket = ctx.wrap_socket
+__all__ = ['check_ip', 'get_session', 'ip_generator']
 
-    def new_wrap_socket(socket, **kwargs):
-        kwargs['server_hostname'] = host
-        return old_wrap_socket(socket, **kwargs)
-
-    ctx.wrap_socket = new_wrap_socket
-    return ctx
-
-def check_ip(ip, timeout, host, testip_format):
+async def check_ip(session, ip, host, request_format):
+    url = request_format.format(f'[{ip}]' if ':' in ip else ip)
     try:
-        req = _build_request(ip, host, testip_format)
-        urlopen(req, timeout=timeout, context=new_context(host)).close()
-    except:
+        async with session.get(url,
+                               server_hostname=host,
+                               headers={'Host': host},
+                               allow_redirects=False) as response:
+            await response.release()
+        return True
+    except Exception:
         return False
-    return True
+
+def get_session(timeout):
+    return aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(
+            limit=0,
+            use_dns_cache=False,
+            force_close=True,
+            ssl=True,
+            enable_cleanup_closed=True
+        ),
+        timeout=aiohttp.ClientTimeout(total=timeout),
+        cookie_jar=aiohttp.DummyCookieJar(),
+        raise_for_status=True,
+        trust_env=False,
+        auto_decompress=False
+    )
+
+def ip_generator(networks, shuffle=True):
+    if not shuffle:
+        for net in networks:
+            yield from map(str, net.hosts())
+        return
+
+    # <=512 chunks per CIDR, preferred 256 addresses per chunk
+    chunks = []
+    for net in networks:
+        if net.num_addresses <= 256:
+            chunks.append(net)
+        elif net.num_addresses > 131072:
+            chunks.extend(net.subnets(prefixlen_diff=9))
+        else:
+            chunks.extend(net.subnets(new_prefix=net.max_prefixlen - 8))
+
+    generators = [map(str, chunk.hosts()) for chunk in chunks]
+    while generators:
+        random.shuffle(generators)
+        next_generators = []
+        for gen in generators:
+            if next_ip := next(gen, None):
+                yield next_ip
+                next_generators.append(gen)
+        generators = next_generators
