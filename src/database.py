@@ -1,5 +1,7 @@
-from config import SaveMode
 import os
+from ipaddress import ip_address
+
+from config import SaveMode
 
 class Database:
     def __init__(self, config):
@@ -14,7 +16,8 @@ class Database:
             original_ips = self.file.read().split()
             ips = list(set(ips) | set(original_ips))
             self.file.seek(0)
-        self.file.write('\n'.join(sorted(ips, key=lambda ip: tuple(map(int, ip.split('.'))))) + '\n')
+        sorted_ips = sorted(ips, key=lambda x: ((ip := ip_address(x)).version, ip))
+        self.file.write('\n'.join(sorted_ips) + '\n')
 
     def __enter__(self):
         return self
