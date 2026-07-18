@@ -29,7 +29,7 @@
 
 ## 运行脚本
 
-在安装了 Python >= 3.6 的任意系统中执行 `gtdb.py` 即可。请务必先安装依赖：
+在安装了 Python >= 3.8 的任意系统中执行 `gtdb.py` 即可。请务必先安装依赖：
 
 ```
 pip install -r requirements.txt
