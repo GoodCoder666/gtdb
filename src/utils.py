@@ -11,9 +11,8 @@ async def check_ip(session, ip, host, request_format):
         async with session.get(url,
                                server_hostname=host,
                                headers={'Host': host},
-                               allow_redirects=False) as response:
-            await response.release()
-        return True
+                               allow_redirects=False):
+            return True
     except Exception:
         return False
 
